@@ -5,16 +5,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.os.Build
 import android.view.View
-import com.facebook.react.bridge.ReactApplicationContext
 
 @SuppressLint("ViewConstructor")
-class RNBootSplashDrawMarkerView(
-  context: Context,
-  private val reactContext: ReactApplicationContext,
-) : View(context) {
+class RNBootSplashDrawMarkerView(context: Context) : View(context) {
 
-  var autoHide: Boolean = true
-  var fade: Boolean = false
   var onDrawn: (() -> Unit)? = null
 
   private var hasDrawn = false
@@ -40,13 +34,7 @@ class RNBootSplashDrawMarkerView(
   }
 
   private fun scheduleDrawn() {
-    val drawn = Runnable {
-      if (autoHide) {
-        RNBootSplashModuleImpl.hide(reactContext, fade)
-      }
-
-      onDrawn?.invoke()
-    }
+    val drawn = Runnable { onDrawn?.invoke() }
 
     // Run once the frame holding this marker has been submitted, or on the next loop iteration
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

@@ -19,8 +19,7 @@ class RNBootSplashDrawMarkerManager :
 
   override fun createViewInstance(
     reactContext: ThemedReactContext
-  ): RNBootSplashDrawMarkerView =
-    RNBootSplashDrawMarkerView(reactContext, reactContext.reactApplicationContext)
+  ): RNBootSplashDrawMarkerView = RNBootSplashDrawMarkerView(reactContext)
 
   override fun getExportedCustomDirectEventTypeConstants() =
     mutableMapOf(
@@ -36,14 +35,6 @@ class RNBootSplashDrawMarkerManager :
       UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.id)
         ?.dispatchEvent(RNBootSplashDrawnEvent(UIManagerHelper.getSurfaceId(view), view.id))
     }
-  }
-
-  override fun setAutoHide(view: RNBootSplashDrawMarkerView, value: Boolean) {
-    view.autoHide = value
-  }
-
-  override fun setFade(view: RNBootSplashDrawMarkerView, value: Boolean) {
-    view.fade = value
   }
 
   companion object {

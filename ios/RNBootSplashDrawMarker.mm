@@ -1,7 +1,6 @@
 #ifdef RCT_NEW_ARCH_ENABLED
 
 #import "RNBootSplashDrawMarker.h"
-#import "RNBootSplash.h"
 
 #import <react/renderer/components/RNBootSplashSpec/ComponentDescriptors.h>
 #import <react/renderer/components/RNBootSplashSpec/EventEmitters.h>
@@ -19,8 +18,6 @@ using namespace facebook::react;
 
 @interface RNBootSplashDrawMarkerView : UIView
 
-@property (nonatomic, assign) BOOL autoHide;
-@property (nonatomic, assign) BOOL fade;
 @property (nonatomic, weak) RNBootSplashDrawMarker *owner;
 
 - (void)reset;
@@ -34,8 +31,6 @@ using namespace facebook::react;
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     _hasDrawn = NO;
-    _autoHide = YES;
-    _fade = NO;
 
     self.opaque = NO;
     self.backgroundColor = UIColor.clearColor;
@@ -65,14 +60,7 @@ using namespace facebook::react;
 }
 
 - (void)scheduleDrawn {
-  BOOL autoHide = _autoHide;
-  BOOL fade = _fade;
-
   dispatch_async(dispatch_get_main_queue(), ^{
-    if (autoHide) {
-      [RNBootSplash hideWithFade:fade];
-    }
-
     [self.owner emitOnDrawn];
   });
 }
@@ -113,16 +101,6 @@ using namespace facebook::react;
   }
 
   static_cast<const RNBootSplashDrawMarkerEventEmitter &>(*_eventEmitter).onDrawn({});
-}
-
-- (void)updateProps:(const Props::Shared &)props
-           oldProps:(const Props::Shared &)oldProps {
-  const auto &markerProps = *std::static_pointer_cast<const RNBootSplashDrawMarkerProps>(props);
-
-  _markerView.autoHide = markerProps.autoHide;
-  _markerView.fade = markerProps.fade;
-
-  [super updateProps:props oldProps:oldProps];
 }
 
 - (void)prepareForRecycle {

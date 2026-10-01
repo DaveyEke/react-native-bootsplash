@@ -2,9 +2,7 @@ import { StyleSheet } from "react-native";
 import RNBootSplashDrawMarker from "./specs/RNBootSplashDrawMarkerNativeComponent";
 
 export type DrawMarkerProps = {
-  autoHide?: boolean;
-  fade?: boolean;
-  onDrawn?: () => void;
+  onDrawn: () => void;
 };
 
 const styles = StyleSheet.create({
@@ -19,15 +17,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export function DrawMarker({
-  autoHide = true,
-  fade = false,
-  onDrawn,
-}: DrawMarkerProps) {
+export function DrawMarker({ onDrawn }: DrawMarkerProps) {
   return (
     <RNBootSplashDrawMarker
-      autoHide={autoHide}
-      fade={fade}
       onDrawn={onDrawn}
       pointerEvents="none"
       style={styles.marker}

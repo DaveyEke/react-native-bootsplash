@@ -349,9 +349,9 @@ const App = () => {
 
 ### DrawMarker
 
-An invisible component that knows when it has been drawn, and hides the splash screen from the native side once that happens.
+An invisible component that knows when it has been drawn, so you can hide the splash screen once that happens.
 
-`onLayout` and effects tell you that layout was computed or that React is done, both of which happen before anything is painted. This one is drawn like any other view, so it can only report a draw that really happened, and the hide never goes through JS.
+`onLayout` and effects tell you that layout was computed or that React is done, both of which happen before anything is painted. This one is drawn like any other view, so it can only report a draw that really happened.
 
 Mount it when your content is ready.
 
@@ -359,9 +359,7 @@ Mount it when your content is ready.
 
 ```ts
 type DrawMarkerProps = {
-  autoHide?: boolean; // hide the splash screen once drawn (default: true)
-  fade?: boolean; // same as the hide() option (default: false)
-  onDrawn?: () => void; // called once the marker has been drawn
+  onDrawn: () => void; // called once the marker has been drawn
 };
 ```
 
@@ -375,7 +373,7 @@ const App = () => (
   <View style={{ flex: 1 }}>
     <Text>My awesome app</Text>
 
-    <BootSplash.DrawMarker fade />
+    <BootSplash.DrawMarker onDrawn={() => BootSplash.hide({ fade: true })} />
   </View>
 );
 ```
@@ -383,13 +381,11 @@ const App = () => (
 To wait for your own data before hiding, mount it when you are ready:
 
 ```tsx
-{hasInitialData && <BootSplash.DrawMarker fade />}
-```
-
-Set `autoHide` to `false` when you want the draw signal without the hide, so you can decide when the splash screen goes:
-
-```tsx
-<BootSplash.DrawMarker autoHide={false} onDrawn={onDrawn} />
+{
+  hasInitialData && (
+    <BootSplash.DrawMarker onDrawn={() => BootSplash.hide({ fade: true })} />
+  );
+}
 ```
 
 **This component requires the new architecture. `hide()` and `useHideAnimation()` work on both.**

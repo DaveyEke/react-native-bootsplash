@@ -24,8 +24,8 @@ import NativeModule from "./specs/NativeRNBootSplash";
 
 const EDGE_TO_EDGE = isEdgeToEdge();
 
-export { DrawMarker };
 export type { DrawMarkerProps } from "./DrawMarker";
+export { DrawMarker };
 
 export type Config = {
   fade?: boolean;
@@ -206,9 +206,7 @@ export function useHideAnimation(config: UseHideAnimationConfig) {
       style: containerStyle,
     };
 
-    // The marker does not hide the splash screen itself here: the animation can
-    // only start once the logo and brand images are loaded too
-    const marker = createElement(DrawMarker, { autoHide: false, onDrawn });
+    const marker = createElement(DrawMarker, { onDrawn });
 
     const logo: LogoProps =
       logoFinalSrc == null
